@@ -51,10 +51,13 @@ def foto(nome, alt, w, h, sizes):
 def colecao():
     out = []
     for i, nome, lat, g, _ in C:
-        out.append(f'''      <button class="esp" type="button" data-g="{g}" data-src="assets/img/pele/{i}.webp" data-pl="assets/img/prancha/{i}.webp" data-nome="{a(nome)}" data-lat="{a(lat)}" aria-label="Ver {a(nome)} na pele">
-        <span class="esp-img"><img class="pele" alt="" data-pele="assets/img/pele/{i}.webp" draggable="false"><img class="pl" src="assets/img/prancha/{i}.webp" alt="{a(nome)}, prancha da tatuagem" width="800" height="1000" loading="lazy" decoding="async" draggable="false"></span>
-        <span class="esp-tx"><b>{nome}</b><em class="lat">{lat}</em></span>
-      </button>''')
+        out.append(f'''      <article class="esp" data-g="{g}" data-src="assets/img/pele/{i}.webp" data-pl="assets/img/prancha/{i}.webp" data-nome="{a(nome)}" data-lat="{a(lat)}">
+        <button class="esp-bt" type="button" aria-label="Ver {a(nome)} na pele">
+          <span class="esp-img"><img class="pele" alt="" data-pele="assets/img/pele-p/{i}.webp" draggable="false"><img class="pl" src="assets/img/prancha/{i}.webp" alt="{a(nome)}, prancha da tatuagem" width="800" height="1000" loading="lazy" decoding="async" draggable="false"></span>
+          <span class="esp-tx"><b>{nome}</b><em class="lat">{lat}</em></span>
+        </button>
+        <button class="esp-quero" type="button" tabindex="-1">Quero uma assim</button>
+      </article>''')
     return '\n'.join(out)
 
 
@@ -98,7 +101,6 @@ def main():
         'RELATOS': '\n'.join(f'      <li class="entra"><p>{a(p)}</p><footer><b>{a(n)}</b>, {d}</footer></li>' for p, n, d in RELATOS),
         'TIPOS': ''.join(f'<label><input type="radio" name="tipo" value="{x}"{" checked" if j == 0 else ""}><span>{x}</span></label>' for j, x in enumerate(TIPOS)),
         'LINKS': '\n'.join(f'      <a href="{a(u)}" target="_blank" rel="noopener"><span>{n}<small>{d}</small></span>{SETA}</a>' for u, n, d in LINKS),
-        'ICO_ZAP': ZAP,
     }
     for k, v in subs.items():
         t = t.replace('{{' + k + '}}', v)

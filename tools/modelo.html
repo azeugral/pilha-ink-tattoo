@@ -19,13 +19,13 @@
 <link rel="preload" href="assets/fonts/gloock-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/fontes.css">
 <link rel="stylesheet" href="assets/css/site.css">
-<noscript><style>.hero h1 span,.falcao img,.hero-esq,.hero-dados,.entra{opacity:1!important;transform:none!important}.manifesto blockquote .pl{color:var(--tinta)!important}.merg-pass>div:first-child{opacity:1;visibility:visible;transform:none}</style></noscript>
+<noscript><style>.hero h1 span,.hero-esq,.hero-dados,.entra{opacity:1!important;transform:none!important}.manifesto blockquote .pl{color:var(--tinta)!important}.mar-reserva{display:block!important}</style></noscript>
 </head>
 <body>
 <a class="pular" href="#colecao">Pular para a coleção</a>
 
 <header id="topo">
-  <a class="marca" href="#inicio" aria-label="Pilha Ink Tattoo, início">Pilha <span>ink tattoo</span></a>
+  <a class="marca" href="#inicio" aria-label="Pilha Ink Tattoo, início"><img src="assets/img/marca.webp" width="640" height="536" alt="" draggable="false"><i aria-hidden="true"></i><span aria-hidden="true"><b>PILHA INK</b><small>TATTOO</small></span></a>
   <nav id="nav" aria-label="Principal">
     <ul>
       <li><a href="#colecao">Coleção</a></li>
@@ -38,24 +38,22 @@
     </ul>
   </nav>
   <div class="topo-dir">
-    <a class="bt" href="#orcamento">Pedir orçamento</a>
+    <a class="bt" href="#orcamento"><span class="bt-longo">Pedir orçamento</span><span class="bt-curto">Orçamento</span></a>
     <button id="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav"><i></i><i></i></button>
   </div>
 </header>
 
 <main id="inicio">
 <section class="hero" aria-label="Apresentação">
-  <div class="palco" data-palco>
+  <div class="palco">
     <canvas id="vento" aria-hidden="true"></canvas>
     <video id="vento-v" muted loop playsinline preload="none" poster="assets/img/vento-pe.jpg" aria-hidden="true" hidden></video>
   </div>
+  <img class="mar-reserva" id="mar-reserva" alt="Mariposa tatuada por Pilha no peito de um cliente, com a tinta recortada da pele" width="1400" height="779" draggable="false" hidden>
   <h1><span>PILHA</span><b class="so-leitor"> Ink Tattoo</b></h1>
-  <div class="palco frente">
-    <div class="falcao" id="falcao"><img src="assets/img/falcao.webp" srcset="assets/img/falcao-860.webp 860w, assets/img/falcao.webp 1500w" sizes="(max-width:767px) 95vw, 72vw" width="1500" height="1875" alt="Falcão-peregrino tatuado por Pilha, com a tinta recortada da pele" fetchpriority="high" draggable="false"></div>
-  </div>
   <div class="hero-txt">
     <div class="hero-esq">
-      <em class="lat">Falco peregrinus</em>
+      <em class="lat">Lepidoptera, tatuada no peito</em>
       <p>O primeiro artista biólogo. Faço da natureza belas artes.</p>
       <div class="hero-bts">
         <a class="bt" href="#orcamento">Pedir orçamento</a>
@@ -79,7 +77,7 @@
   <div class="max">
     <header class="cab entra">
       <h2>A coleção</h2>
-      <p>Cada peça daqui foi tatuada de verdade. Tiramos a pele da foto para você ver só a tinta, como numa prancha de museu. Toque em um espécime para ver a tatuagem real.</p>
+      <p>Cada peça daqui foi tatuada de verdade. Tiramos a pele da foto para você ver só a tinta, como numa prancha de museu. Toque ou passe o mouse em um espécime para ver a tatuagem real.</p>
     </header>
     <div class="filtros" role="group" aria-label="Filtrar coleção">
       {{FILTROS}}
@@ -141,40 +139,36 @@
   </div>
 </section>
 
-<section class="mergulho" id="historia" aria-label="A história do falcão engaiolado">
-  <div class="merg-tela">
-    <div class="merg-falcao" id="merg-f"><img src="assets/img/falcao.webp" srcset="assets/img/falcao-860.webp 860w, assets/img/falcao.webp 1500w" sizes="100vw" width="1500" height="1875" alt="" loading="lazy" decoding="async" draggable="false"></div>
-    <div class="merg-grade" id="merg-g" aria-hidden="true"></div>
-    <div class="merg-escuro" aria-hidden="true"></div>
-    <div class="merg-pass" id="merg-p">
-      <div class="on">
-        <p class="kmh" aria-label="320 quilômetros por hora"><span id="kmh">0</span><small>km/h</small></p>
-        <h3>O animal mais rápido do planeta.</h3>
+<section class="sec" id="historia">
+  <div class="max historia">
+    <figure class="hist-video entra">
+      <div class="tela-video" id="tela-video">
+        <video id="hist-v" src="assets/video/historia.mp4" poster="assets/img/historia-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Pilha conta a própria história em vídeo, com legendas"></video>
+        <p class="leg-video" id="leg-video" aria-hidden="true"></p>
+        <button class="som" id="som" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l6 5V4L7 9H3z"/><path class="on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.500 8.500 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Ouvir com som</span></button>
       </div>
-      <div><h3>Agora imagine ele preso numa gaiola.</h3><p>Seguro, bem alimentado, sem voar. Será que ele era feliz?</p></div>
-      <div><h3>Por muito tempo eu fui um deles.</h3><p>Eletricista industrial, ganhava bem e não era feliz.</p></div>
-      <div><h3>Queimei minha carteira de trabalho para não voltar.</h3><p>Fui chamado de doido. Comecei a tatuar no quarto de um amigo, com a ajuda do meu primo Luiz Fonseca.</p></div>
-      <div><h3>Construí meu estúdio tijolo por tijolo.</h3><p>Hoje são mais de 13 anos só com preto concentrado.</p></div>
+      <figcaption>Pilha conta como tudo começou, em vídeo de 2020</figcaption>
+    </figure>
+    <div class="hist-tx entra">
+      <h2>O falcão que saiu da gaiola</h2>
+      <p class="abre">Era eletricista, ganhava bem e não era feliz. Largou tudo para tatuar, ouviu em casa que tatuagem não dava futuro e bateu em estúdios que não abriram a porta.</p>
+      <p>Então construiu o próprio caminho, tijolo por tijolo. Hoje vive do que ama: mais de 13 anos só com preto concentrado.</p>
+      <details class="hist-mais">
+        <summary>Ler a história completa<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <div class="hist-corpo">
+          <p>O falcão-peregrino é o animal mais rápido do planeta. Agora imagine ele preso numa gaiola: seguro, bem alimentado, sem voar. Será que ele era feliz? Por muito tempo eu fui um deles.</p>
+          <p>Queimei minha carteira de trabalho para não voltar. Fui chamado de doido. Comecei a tatuar no quarto de um amigo, com a ajuda do meu primo Luiz Fonseca.</p>
+          <p>Surfo desde os 10 anos e sempre tive contato com a natureza. É nesses lugares que encontro o que levo para as minhas artes.</p>
+          <p>A atenção que eu não tive quando queria começar, faço questão de dar. Se um cliente me manda mensagem às duas da manhã e estou acordado, eu respondo.</p>
+          <ul class="licoes">
+            <li><b>Primeira lição</b><h3>Acreditar que posso voar.</h3></li>
+            <li><b>Segunda lição</b><h3>Não ter medo de bater as asas e cair.</h3></li>
+            <li><b>Terceira lição</b><h3>Diferentes formas de viver exigem diferentes habilidades.</h3></li>
+            <li><b>Quarta lição</b><h3>Se quiser voar alto, evite voar com pardais.</h3></li>
+          </ul>
+        </div>
+      </details>
     </div>
-  </div>
-</section>
-
-<section class="sec" id="trajeto">
-  <div class="max">
-    <div class="trajeto">
-      <figure class="foto entra"><img src="assets/img/foto/caes.webp" alt="Pilha sorrindo com seus dois dachshunds no colo" width="1100" height="1375" loading="lazy" decoding="async" draggable="false"></figure>
-      <div class="trajeto-tx entra">
-        <h2>Leandro Lima Faria, o Pilha</h2>
-        <p>Trocou a indústria pela tatuagem e fez do preto concentrado a sua assinatura. Da mesa do estúdio ao mar, nunca largou os insetos que observa desde criança.</p>
-        <p>Depois vieram as máquinas com o nome dele, os alunos e a pista. Hoje ele pilota uma ZX6R no Acelerando Sonhos, mas o centro de tudo continua sendo a tinta.</p>
-      </div>
-    </div>
-    <ul class="licoes">
-      <li class="entra"><b>Primeira lição</b><h3>Acreditar que posso voar.</h3></li>
-      <li class="entra"><b>Segunda lição</b><h3>Não ter medo de bater as asas e cair.</h3></li>
-      <li class="entra"><b>Terceira lição</b><h3>Diferentes formas de viver exigem diferentes habilidades.</h3></li>
-      <li class="entra"><b>Quarta lição</b><h3>Se quiser voar alto, evite voar com pardais.</h3></li>
-    </ul>
   </div>
 </section>
 
@@ -219,14 +213,16 @@
   </div>
 </section>
 
-<section class="sec" id="orcamento" style="background:var(--noite2)">
+<section class="sec" id="orcamento">
+  <canvas id="vento-o" aria-hidden="true"></canvas>
+  <video id="vento-ov" muted loop playsinline preload="none" poster="assets/img/vento-orc.jpg" aria-hidden="true" hidden></video>
   <div class="max">
     <header class="cab entra">
       <h2>Pedir orçamento</h2>
       <p>Responda aqui e seu pedido chega pronto no WhatsApp do Pilha. Sem vai e vem de mensagem.</p>
     </header>
     <div class="orc">
-      <form id="form" novalidate>
+      <form id="form" class="painel" novalidate>
         <fieldset class="campo">
           <legend>O que você quer fazer?</legend>
           <div class="opcoes">{{TIPOS}}</div>
@@ -271,13 +267,12 @@
 </main>
 
 <footer class="rodape">
-  <span class="gde">PILHA</span>
+  <img class="rod-marca" src="assets/img/marca.webp" width="640" height="536" alt="" loading="lazy" draggable="false"><span class="gde">PILHA</span>
   <em class="lat">Amor em cada gota de tinta</em>
   <p>Recreio dos Bandeirantes, Rio de Janeiro</p>
   <p>Site por <a href="https://lrgz.com.br" target="_blank" rel="noopener">L R G Z</a></p>
 </footer>
 
-<a class="zap-flut" id="zap-flut" href="#orcamento" aria-label="Pedir orçamento">{{ICO_ZAP}}</a>
 
 <div id="lb" role="dialog" aria-modal="true" aria-label="Ampliar imagem" hidden>
   <div class="lb-topo">

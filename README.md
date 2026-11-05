@@ -4,7 +4,7 @@ Prévia do site do Pilha (@pilhainktattoo), tatuador do Recreio dos Bandeirantes
 
 ## Conceito
 
-Gabinete de história natural à noite. A tinta das tatuagens foi extraída das fotos e virou prancha de museu, com nome científico, filtro por grupo e a foto real na pele a um toque. O topo é um túnel de vento com linhas de corrente calculadas em volta do falcão-peregrino dele (`tools/campo.py`).
+Gabinete de história natural à noite. A tinta das tatuagens foi extraída das fotos e virou prancha de museu, com nome científico, filtro por grupo e a foto real na pele a um toque. O topo é a mariposa tatuada no peito de um cliente, com a metade direita espelhada para simetria total, batendo as asas num túnel de vento calculado de verdade (`tools/campo.py`), com o nome visto através das asas. A logo do menu é o recorte da cabeça e da asa do falcão tatuado (`_ref/hero/marca.py`).
 
 ## Como editar
 
@@ -12,7 +12,7 @@ Gabinete de história natural à noite. A tinta das tatuagens foi extraída das 
 - Listas (projetos, covers, avaliações, links, WhatsApp): `tools/montar.py`
 - Coleção: `tools/catalogo.py` e `tools/gerar_pranchas.py`
 - Depois de editar: `python tools/montar.py`. Nunca editar o `index.html` direto.
-- Vídeo do topo no celular: `python tools/gerar_video.py`. A caixa do falcão no script tem que bater com `.palco .falcao` no CSS.
+- Vídeo do topo no celular: `python tools/gerar_video.py`. A caixa da mariposa no script (`gerar_video.py`) define o tamanho dela no vídeo; o texto do celular em pé fica por cima, no HTML.
 
 ## CONFIRMAR antes de publicar de verdade
 
@@ -24,9 +24,11 @@ Gabinete de história natural à noite. A tinta das tatuagens foi extraída das 
 6. Curso: se segue ativo, nome oficial, formato e se as alunas citadas podem aparecer.
 7. Nome completo "Leandro Lima Faria" no site: ele quer?
 8. Nomes científicos e nomes das peças da coleção, inclusive "A viúva e a íbis" e os retratos.
-9. "13 anos de tatuagem": o feed sugere início por volta de 2014, a bio diz mais de 13 anos.
+9. "13 anos de tatuagem": a bio diz mais de 13 anos, o feed sugere início por volta de 2014 e, no vídeo de 2020 que está no site, ele diz ter 4 anos de tatuagem. Confirmar o número, porque o vídeo fica ao lado do texto.
 10. "139 mil no Instagram" é o número de novembro de 2026.
 11. História: conferir com ele a passagem da carteira de trabalho e a do primo Luiz Fonseca.
 12. Agenda e cidades de guest. O site não cita nenhuma.
-13. Título "Asas", "Atena e Zeus", "Crisântemo", "Do santo ao Coliseu": nomes dados por nós.
-14. Domínio definitivo. Ao publicar, tirar o `noindex` e trocar a URL do `og:image`.
+13. O vídeo da história é de 2020 (ele diz ter 28 anos). Se tiver um mais recente, trocar.
+14. Mariposa do topo: confirmar se o cliente autoriza o uso da tatuagem como peça principal.
+15. Título "Asas", "Atena e Zeus", "Crisântemo", "Do santo ao Coliseu": nomes dados por nós.
+16. Domínio definitivo. Ao publicar, tirar o `noindex` e trocar a URL do `og:image`.

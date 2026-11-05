@@ -5,15 +5,13 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || d).querySelectorAll(s)); };
   var WA = '5521997426185';
   var calmo = matchMedia('(prefers-reduced-motion: reduce)');
-  var celular = matchMedia('(max-width: 767px)');
+  var celular = matchMedia('(max-width: 767px) and (orientation: portrait)');
   if (matchMedia('(hover: hover) and (pointer: fine)').matches) raiz.classList.add('ponteiro');
 
   /* entrada do topo */
-  var img = $('#falcao img');
   var pronto = function () { raiz.classList.add('pronto'); };
-  var fontes = d.fonts && d.fonts.ready ? d.fonts.ready : Promise.resolve();
-  var quadro = img.decode ? img.decode().catch(function () {}) : Promise.resolve();
-  Promise.race([Promise.all([fontes, quadro]), new Promise(function (r) { setTimeout(r, 1400); })]).then(pronto);
+  var fontes = d.fonts && d.fonts.load ? d.fonts.load('400 100px Gloock', 'PILHA') : Promise.resolve();
+  Promise.race([fontes, new Promise(function (r) { setTimeout(r, 1400); })]).then(pronto);
 
   /* menu */
   var topo = $('#topo'), nav = $('#nav'), mb = $('#menu-btn');
@@ -26,15 +24,10 @@
   nav.addEventListener('click', function (e) { if (e.target.closest('a')) menu(false); });
   addEventListener('resize', function () { if (innerWidth > 1020) menu(false); });
 
-  /* topo sólido e botão flutuante */
-  var flut = $('#zap-flut'), orc = $('#orcamento'), noOrc = false;
-  function aoRolar() {
-    var y = scrollY, h = innerHeight;
-    topo.classList.toggle('rolou', y > 24);
-    flut.classList.toggle('on', y > h * .9 && !noOrc);
-  }
+  /* topo sólido */
+  var orc = $('#orcamento');
+  function aoRolar() { topo.classList.toggle('rolou', scrollY > 24); }
   addEventListener('scroll', aoRolar, { passive: true }); aoRolar();
-  new IntersectionObserver(function (e) { noOrc = e[0].isIntersecting; aoRolar(); }, { rootMargin: '0px 0px -20% 0px' }).observe(orc);
 
   /* entradas */
   var io = new IntersectionObserver(function (es) {
@@ -42,65 +35,149 @@
   }, { rootMargin: '0px 0px -8% 0px', threshold: .05 });
   $$('.entra').forEach(function (el) { io.observe(el); });
 
-  /* vento do topo */
-  var cv = $('#vento'), vid = $('#vento-v'), hero = $('.hero'), caixa = $('#falcao'), gl = null, rodando = false, visivel = true, fp = null;
-  var dpr = 1, somaT = 0, nT = 0, ultimo = 0;
-  function medir() {
-    var r = hero.getBoundingClientRect(), f = caixa.getBoundingClientRect();
-    cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
-    return [(f.left - r.left + f.width / 2) * dpr, (f.top - r.top + f.height / 2) * dpr, f.height * dpr];
+  /* laço que só roda com o elemento na tela */
+  function laco(el, passo) {
+    var vis = false, id = null, ligado = false;
+    function q(ms) { id = null; if (!ligado || !vis || d.hidden) return; passo(ms); id = requestAnimationFrame(q); }
+    function tenta() { if (ligado && vis && !d.hidden && !id) id = requestAnimationFrame(q); }
+    new IntersectionObserver(function (e) { vis = e[0].isIntersecting; tenta(); }).observe(el);
+    d.addEventListener('visibilitychange', tenta);
+    return { liga: function () { ligado = true; tenta(); }, desliga: function () { ligado = false; } };
   }
-  var bx = null;
-  function pintar(ms) {
-    fp = null;
-    if (!rodando || !visivel) return;
-    if (ultimo) {
-      somaT += ms - ultimo; nT++;
-      if (nT === 50) {
-        if (somaT / nT > 24 && dpr > 1) { dpr = Math.max(1, dpr * .75); bx = medir(); }
-        somaT = 0; nT = 0;
-      }
-    }
-    ultimo = ms;
-    gl.desenhar((ms / 12000) % 1, bx, dpr);
-    fp = requestAnimationFrame(pintar);
+  function videoNaTela(v) {
+    new IntersectionObserver(function (e) {
+      if (v.hidden || calmo.matches) return;
+      if (e[0].isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause();
+    }).observe(v);
   }
-  function ligar() { if (rodando && visivel && !fp) { ultimo = 0; fp = requestAnimationFrame(pintar); } }
-  new IntersectionObserver(function (e) { visivel = e[0].isIntersecting; ligar(); }).observe(hero);
-  d.addEventListener('visibilitychange', function () { visivel = !d.hidden; ligar(); });
 
+  /* vento: o campo é um só para o topo e para o orçamento */
+  var cv = $('#vento'), vid = $('#vento-v'), hero = $('.hero'), reserva = $('#mar-reserva');
+  var cvO = $('#vento-o'), vidO = $('#vento-ov');
+  var campoP = null;
+  function campo() {
+    if (!campoP) campoP = fetch('assets/dados/vento.json').then(function (r) { return r.json(); }).then(function (j) {
+      return fetch('assets/dados/vento.bin').then(function (r) { return r.arrayBuffer(); }).then(function (b) { j.dados = new Uint16Array(b); return j; });
+    });
+    return campoP;
+  }
+  function semGl() {
+    raiz.classList.remove('gl');
+    if (!reserva.getAttribute('src')) reserva.src = 'assets/img/mariposa-inteira.webp';
+    reserva.hidden = false;
+  }
+  var mar = null, glH = null, cmp = null, dpr = 1, bx = null, t0 = 0, somaT = 0, nT = 0, ultT = 0;
+  function medeHero() {
+    var r = hero.getBoundingClientRect(), w = r.width, h = r.height;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    var bh = Math.min(h * .64, w * .76 / cmp.a);
+    var cy = Math.max(82, h * .105) + h * .29;
+    /* a mariposa nunca encosta no texto: em tela baixa ela cede */
+    bh = Math.min(bh, 2 * (hero.querySelector('.hero-txt').getBoundingClientRect().top - r.top - 10 - cy));
+    bx = [w / 2 * dpr, cy * dpr, bh * dpr];
+    /* o nome entra no shader para aparecer através da asa */
+    var c = d.createElement('canvas'); c.width = cv.width; c.height = cv.height;
+    var x = c.getContext('2d');
+    x.font = '400 200px Gloock, Georgia, serif';
+    var m = x.measureText('PILHA'), f = 200 * (w * .965) / m.width;
+    var cap = m.actualBoundingBoxAscent / 200 * f, lim = h * .46;
+    if (cap > lim) { f *= lim / cap; cap = lim; }
+    x.font = '400 ' + (f * dpr) + 'px Gloock, Georgia, serif';
+    x.textAlign = 'center'; x.fillStyle = '#fff';
+    x.fillText('PILHA', c.width / 2, (Math.max(82, h * .105) + cap) * dpr);
+    glH.nome(c);
+  }
+  var ez3 = function (p) { return 1 - Math.pow(1 - p, 3); };
+  var lacoH = laco(hero, function (ms) {
+    if (ultT) {
+      somaT += ms - ultT; nT++;
+      if (nT === 50) { if (somaT / nT > 24 && dpr > 1) { dpr = Math.max(1, dpr * .75); medeHero(); } somaT = 0; nT = 0; }
+    }
+    ultT = ms;
+    if (!t0) t0 = ms;
+    glH.desenhar((ms / 12000) % 1, bx, dpr, ez3(Math.min(1, (ms - t0) / 1700)));
+  });
   function usarVideo() {
-    rodando = false; cv.classList.remove('on');
-    vid.hidden = false;
+    lacoH.desliga(); cv.classList.remove('on'); raiz.classList.remove('gl'); reserva.hidden = true;
+    vid.hidden = false; vid.classList.add('on');
     if (!vid.getAttribute('src')) vid.src = 'assets/video/vento-pe.mp4';
-    vid.classList.add('on');
     if (!calmo.matches) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); }
   }
   function usarShader() {
     vid.hidden = true; vid.pause();
-    fetch('assets/dados/vento.json').then(function (r) { return r.json(); }).then(function (j) {
-      return fetch('assets/dados/vento.bin').then(function (r) { return r.arrayBuffer(); }).then(function (b) { j.dados = new Uint16Array(b); return j; });
-    }).then(function (campo) {
-      if (!gl) gl = window.ventoGL(cv, campo);
-      if (!gl) return;
+    var im = new Image(); im.src = 'assets/img/mariposa.webp';
+    Promise.all([campo(), im.decode(), fontes]).then(function (r) {
+      if (celular.matches) return;
+      cmp = r[0];
+      if (!glH) { mar = im; glH = window.ventoGL(cv, cmp, { mariposa: mar, linhas: 20, forca: 1 }); }
+      if (!glH) return semGl();
       var toque = matchMedia('(pointer: coarse)').matches;
       dpr = Math.min(devicePixelRatio || 1, toque ? 1.5 : 2);
-      bx = medir(); gl.desenhar(.2, bx, dpr); cv.classList.add('on');
+      medeHero(); raiz.classList.add('gl'); cv.classList.add('on');
+      glH.desenhar(.25, bx, dpr, 1);
       if (calmo.matches || (toque && innerHeight < 500)) return;
-      rodando = true; ligar();
+      t0 = 0; lacoH.liga();
+    }).catch(semGl);
+  }
+  /* mesmo vento atrás do orçamento */
+  var glO = null, bxO = null, dprO = 1;
+  function medeOrc() {
+    var r = orc.getBoundingClientRect();
+    cvO.width = Math.round(r.width * dprO); cvO.height = Math.round(r.height * dprO);
+    bxO = [r.width / 2 * dprO, r.height / 2 * dprO, Math.min(r.height * .62, r.width * .8 / cmpO.a) * dprO];
+    if (glO) glO.desenhar((performance.now() / 12000) % 1, bxO, dprO, 1);
+  }
+  var cmpO = null;
+  var lacoO = laco(orc, function (ms) { glO.desenhar((ms / 12000) % 1, bxO, dprO, 1); });
+  function orcFundo() {
+    if (celular.matches) {
+      lacoO.desliga(); cvO.hidden = true; vidO.hidden = false;
+      if (!vidO.getAttribute('src')) vidO.src = 'assets/video/vento-orc.mp4';
+      return;
+    }
+    vidO.hidden = true; vidO.pause(); cvO.hidden = false;
+    campo().then(function (c) {
+      cmpO = c;
+      if (!glO) glO = window.ventoGL(cvO, c, { linhas: 11, forca: 1.5, baixo: 0 });
+      if (!glO) return;
+      dprO = Math.min(devicePixelRatio || 1, 1.5);
+      medeOrc();
+      if (!calmo.matches) lacoO.liga();
     }).catch(function () {});
   }
-  function escolher() { if (celular.matches) usarVideo(); else usarShader(); }
+  videoNaTela(vidO); videoNaTela(vid);
+  function escolher() { if (celular.matches) usarVideo(); else usarShader(); orcFundo(); }
   escolher();
   celular.addEventListener('change', escolher);
   var rz;
   addEventListener('resize', function () {
     clearTimeout(rz);
     rz = setTimeout(function () {
-      if (!gl || celular.matches) return;
-      bx = medir(); gl.desenhar(.2, bx, dpr);
+      if (celular.matches) return;
+      if (glH && cmp) { medeHero(); glH.desenhar(.25, bx, dpr, 1); }
+      if (glO) medeOrc();
     }, 120);
   });
+  if (window.ResizeObserver) new ResizeObserver(function () { if (glO && !celular.matches) medeOrc(); }).observe(orc);
+
+  /* vídeo da história: mudo com legenda, som por escolha */
+  var hv = $('#hist-v'), som = $('#som'), lv = $('#leg-video'), segs = null, sI = -1;
+  videoNaTela(hv);
+  fetch('assets/dados/historia.json').then(function (r) { return r.json(); }).then(function (j) { segs = j; }).catch(function () {});
+  hv.addEventListener('timeupdate', function () {
+    if (!segs) return;
+    var t = hv.currentTime, k = -1;
+    for (var i = 0; i < segs.length; i++) if (t >= segs[i][0] && t < segs[i + 1 < segs.length ? i + 1 : i][0] + (i + 1 < segs.length ? 0 : 3)) { k = i; break; }
+    if (k === sI) return; sI = k;
+    lv.textContent = '';
+    if (k >= 0) { var sp = d.createElement('span'); sp.textContent = segs[k][2]; lv.appendChild(sp); }
+  });
+  function alternaSom() {
+    var ligar = hv.muted; hv.muted = !ligar; som.setAttribute('aria-pressed', ligar);
+    $('span', som).textContent = ligar ? 'Som ligado' : 'Ouvir com som';
+    if (ligar) { var p = hv.play(); if (p && p.catch) p.catch(function () {}); }
+  }
+  som.addEventListener('click', alternaSom);
 
   /* manifesto: as palavras escurecem com a rolagem */
   var man = $('#manifesto'), pals = $$('.pl', man);
@@ -111,33 +188,8 @@
     pals.forEach(function (w, i) { w.classList.toggle('on', i < n); });
   }
 
-  /* história: o falcão, a gaiola e a saída */
-  var merg = $('#historia'), mf = $('#merg-f'), mg = $('#merg-g'), km = $('#kmh'), passos = $$('#merg-p > div');
-  var aoMerg = false, kAtual = -1;
-  var cl = function (x, a, b) { return Math.max(a, Math.min(b, x)); };
-  var ez = function (p) { return 1 - Math.pow(1 - p, 3); };
-  function historia() {
-    var r = merg.getBoundingClientRect(), tot = r.height - innerHeight, p = cl(-r.top / tot, 0, 1);
-    var i = p < .2 ? 0 : p < .4 ? 1 : p < .58 ? 2 : p < .78 ? 3 : 4;
-    passos.forEach(function (el, j) { el.classList.toggle('on', j === i); });
-    var k = Math.round(ez(cl(p / .17, 0, 1)) * 320);
-    if (k !== kAtual) { km.textContent = k; kAtual = k; }
-    /* a gaiola desce em .2-.34, fica, e sobe em .6-.74 */
-    var g = p < .2 ? -104 : p < .34 ? -104 + 104 * ez((p - .2) / .14) : p < .6 ? 0 : p < .74 ? -104 * ((p - .6) / .14) * ((p - .6) / .14) : -104;
-    mg.style.setProperty('--g', g.toFixed(2) + '%');
-    var w = innerWidth, h = innerHeight;
-    var vai = cl((p - .62) / .38, 0, 1);
-    mf.style.setProperty('--dx', (vai * vai * w * .7).toFixed(1) + 'px');
-    mf.style.setProperty('--dy', (-vai * vai * h * .9 - (1 - ez(cl(p / .2, 0, 1))) * h * -.04).toFixed(1) + 'px');
-    mf.style.setProperty('--s', (1.08 - .14 * cl(p / .4, 0, 1) + .2 * vai).toFixed(4));
-  }
-  new IntersectionObserver(function (e) { aoMerg = e[0].isIntersecting; if (aoMerg) historia(); }).observe(merg);
-  var tk = false;
-  addEventListener('scroll', function () {
-    if (tk) return; tk = true;
-    requestAnimationFrame(function () { tk = false; manifesto(); if (aoMerg) historia(); });
-  }, { passive: true });
-  manifesto(); historia();
+  addEventListener('scroll', function () { requestAnimationFrame(manifesto); }, { passive: true });
+  manifesto();
 
   /* coleção */
   var todos = $$('.esp'), filtros = $$('.filtros button'), maisB = $('#ver-mais'), filtro = 'todos', tudo = false;
@@ -166,13 +218,15 @@
   aplicar();
   var uw = innerWidth;
   addEventListener('resize', function () { if (innerWidth !== uw) { uw = innerWidth; aplicar(); } });
-  /* a foto da pele só carrega quando alguém passa o mouse */
-  if (raiz.classList.contains('ponteiro')) {
-    $('#grade').addEventListener('pointerover', function (e) {
-      var b = e.target.closest('.esp'); if (!b) return;
-      var im = $('.pele', b); if (!im.getAttribute('src')) im.src = im.dataset.pele;
+  /* a miniatura da pele carrega perto da tela, para a troca ser imediata */
+  var ioP = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var im = $('.pele', e.target); if (!im.getAttribute('src')) im.src = im.dataset.pele;
+      ioP.unobserve(e.target);
     });
-  }
+  }, { rootMargin: '300px 0px' });
+  todos.forEach(function (el) { ioP.observe(el); });
 
   /* ampliação */
   var lb = $('#lb'), palco = $('#lb-palco'), lbi = $('#lb-img'), troca = $('#lb-troca'), vPele = $('#lb-v-pele'), vPl = $('#lb-v-pl');
@@ -209,7 +263,19 @@
     if (volta && !semFoco) volta.focus({ preventScroll: true });
   }
   function anda(n) { pos = (pos + n + lista.length) % lista.length; mostra(); }
+  var ePonteiro = raiz.classList.contains('ponteiro'), aberta = null;
   d.addEventListener('click', function (e) {
+    var q = e.target.closest('.esp-quero');
+    if (q) { pedir(q.closest('.esp')); return; }
+    var eb = e.target.closest('.esp-bt');
+    if (eb) {
+      var esp = eb.closest('.esp');
+      if (ePonteiro) { abre(esp); return; }
+      /* no toque a prancha vira a tatuagem ali mesmo */
+      if (aberta && aberta !== esp) aberta.classList.remove('ver');
+      esp.classList.toggle('ver'); aberta = esp.classList.contains('ver') ? esp : null;
+      return;
+    }
     var b = e.target.closest('button[data-src]'); if (b) abre(b);
   });
   $('#lb-x').addEventListener('click', function () { fecha(); });
@@ -295,12 +361,12 @@
   });
   function marcaTipo(t) { $$('input[name=tipo]', form).forEach(function (r) { r.checked = r.value === t; }); etiqueta(); }
   $$('[data-tipo]').forEach(function (a) { a.addEventListener('click', function () { marcaTipo(a.dataset.tipo); }); });
-  quero.addEventListener('click', function () {
-    var b = lista[pos];
+  function pedir(b) {
     F.ref.value = b.dataset.nome + ' (' + b.dataset.lat + ')'; refFoto = b.dataset.src;
-    marcaTipo('Autoral'); fecha(true);
+    marcaTipo('Autoral'); if (!lb.hidden) fecha(true);
     orc.scrollIntoView({ behavior: calmo.matches ? 'auto' : 'smooth' });
     F.ideia.focus({ preventScroll: true });
-  });
+  }
+  quero.addEventListener('click', function () { pedir(lista[pos]); });
   etiqueta();
 })();
