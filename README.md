@@ -4,7 +4,7 @@ Prévia do site do Pilha (@pilhainktattoo), tatuador do Recreio dos Bandeirantes
 
 ## Conceito
 
-Gabinete de história natural à noite. A tinta das tatuagens foi extraída das fotos e virou prancha de museu, com nome científico, filtro por grupo e a foto real na pele a um toque. O topo é a mariposa tatuada no peito de um cliente, com a metade direita espelhada para simetria total, parada no meio de um túnel de vento calculado de verdade (`tools/campo.py`). Ao abrir, a arte se forma uma vez, do traço ao preenchimento, com o nome visto através das asas. A logo é provisória, só em fonte, até o cliente definir a dele.
+Gabinete de história natural à noite. A tinta das tatuagens foi extraída das fotos e virou prancha de museu, com nome científico, filtro por grupo e a foto real na pele a um toque. O topo é a mariposa tatuada no peito de um cliente, com a metade direita espelhada para simetria total, parada no meio de um túnel de vento calculado de verdade (`tools/campo.py`). Ao abrir, a arte se forma uma vez, do traço ao preenchimento, com o nome visto através das asas. A logo é provisória: o nome em fonte ao lado da pilha que ele usa no Instagram, redesenhada em vetor, que carrega com a rolagem da página. O desenho com TATTOO na vertical não cabe legível no menu, então lá ficam só o + e o −.
 
 ## Como editar
 

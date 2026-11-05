@@ -51,6 +51,28 @@
     }).observe(v);
   }
 
+  /* a pilha do menu carrega conforme a página desce e fecha cheia no fim */
+  var bat = $('#bateria'), rc = $('#carga'), MIN = .14, alvo = MIN, nivel = 0, gira = 0;
+  function poeCarga(n) {
+    var h = 47.5 * n;
+    rc.setAttribute('y', (54 - h).toFixed(2)); rc.setAttribute('height', (h + 2).toFixed(2));
+    bat.classList.toggle('cheia', n > .995);
+  }
+  function passoCarga() {
+    nivel += (alvo - nivel) * .14;
+    if (Math.abs(alvo - nivel) < .002) { nivel = alvo; gira = 0; poeCarga(nivel); return; }
+    poeCarga(nivel); gira = requestAnimationFrame(passoCarga);
+  }
+  function medeCarga() {
+    var f = Math.max(1, d.documentElement.scrollHeight - innerHeight);
+    alvo = MIN + (1 - MIN) * Math.min(1, Math.max(0, scrollY / f));
+    if (calmo.matches) { nivel = alvo; poeCarga(nivel); }
+    else if (!gira) gira = requestAnimationFrame(passoCarga);
+  }
+  addEventListener('scroll', medeCarga, { passive: true });
+  addEventListener('resize', medeCarga);
+  medeCarga();
+
   /* vento: o campo é um só para o topo e para o orçamento */
   var cv = $('#vento'), vid = $('#vento-v'), vf = $('#vento-f'), formou = false, hero = $('.hero'), reserva = $('#mar-reserva');
   var cvO = $('#vento-o'), vidO = $('#vento-ov');
