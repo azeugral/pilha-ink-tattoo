@@ -4,7 +4,7 @@ Prévia do site do Pilha (@pilhainktattoo), tatuador do Recreio dos Bandeirantes
 
 ## Conceito
 
-Gabinete de história natural à noite. A tinta das tatuagens foi extraída das fotos e virou prancha de museu, com nome científico, filtro por grupo e a foto real na pele a um toque. O topo é a mariposa tatuada no peito de um cliente, com a metade direita espelhada para simetria total, batendo as asas num túnel de vento calculado de verdade (`tools/campo.py`), com o nome visto através das asas. A logo do menu é o recorte da cabeça e da asa do falcão tatuado (`_ref/hero/marca.py`).
+Gabinete de história natural à noite. A tinta das tatuagens foi extraída das fotos e virou prancha de museu, com nome científico, filtro por grupo e a foto real na pele a um toque. O topo é a mariposa tatuada no peito de um cliente, com a metade direita espelhada para simetria total, parada no meio de um túnel de vento calculado de verdade (`tools/campo.py`). Ao abrir, a arte se forma uma vez, do traço ao preenchimento, com o nome visto através das asas. A logo é provisória, só em fonte, até o cliente definir a dele.
 
 ## Como editar
 
@@ -12,7 +12,7 @@ Gabinete de história natural à noite. A tinta das tatuagens foi extraída das 
 - Listas (projetos, covers, avaliações, links, WhatsApp): `tools/montar.py`
 - Coleção: `tools/catalogo.py` e `tools/gerar_pranchas.py`
 - Depois de editar: `python tools/montar.py`. Nunca editar o `index.html` direto.
-- Vídeo do topo no celular: `python tools/gerar_video.py`. A caixa da mariposa no script (`gerar_video.py`) define o tamanho dela no vídeo; o texto do celular em pé fica por cima, no HTML.
+- Vídeos do topo no celular (`vento-forma.mp4` e o laço `vento-pe.mp4`): `python tools/gerar_video.py pe`. A caixa da mariposa no script (`gerar_video.py`) define o tamanho dela no vídeo; o texto do celular em pé fica por cima, no HTML.
 
 ## CONFIRMAR antes de publicar de verdade
 

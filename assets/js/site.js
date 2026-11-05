@@ -52,7 +52,7 @@
   }
 
   /* vento: o campo é um só para o topo e para o orçamento */
-  var cv = $('#vento'), vid = $('#vento-v'), hero = $('.hero'), reserva = $('#mar-reserva');
+  var cv = $('#vento'), vid = $('#vento-v'), vf = $('#vento-f'), formou = false, hero = $('.hero'), reserva = $('#mar-reserva');
   var cvO = $('#vento-o'), vidO = $('#vento-ov');
   var campoP = null;
   function campo() {
@@ -87,7 +87,7 @@
     x.fillText('PILHA', c.width / 2, (Math.max(82, h * .105) + cap) * dpr);
     glH.nome(c);
   }
-  var ez3 = function (p) { return 1 - Math.pow(1 - p, 3); };
+  var forma = 0, FORMA_MS = 4400, suave = function (p) { return p * p * (3 - 2 * p); };
   var lacoH = laco(hero, function (ms) {
     if (ultT) {
       somaT += ms - ultT; nT++;
@@ -95,16 +95,32 @@
     }
     ultT = ms;
     if (!t0) t0 = ms;
-    glH.desenhar((ms / 12000) % 1, bx, dpr, ez3(Math.min(1, (ms - t0) / 1700)));
+    forma = suave(Math.max(0, Math.min(1, (ms - t0 - 300) / FORMA_MS)));
+    glH.desenhar((ms / 12000) % 1, bx, dpr, forma);
   });
   function usarVideo() {
     lacoH.desliga(); cv.classList.remove('on'); raiz.classList.remove('gl'); reserva.hidden = true;
-    vid.hidden = false; vid.classList.add('on');
     if (!vid.getAttribute('src')) vid.src = 'assets/video/vento-pe.mp4';
-    if (!calmo.matches) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); }
+    /* a arte se forma uma vez num vídeo curto; depois segue o laço, que começa no mesmo instante do vento */
+    if (formou || calmo.matches) return mostraLaco();
+    vid.hidden = true; vid.load();
+    vf.hidden = false; vf.classList.add('on');
+    if (!vf.getAttribute('src')) vf.src = 'assets/video/vento-forma.mp4';
+    var p = vf.play();
+    if (p && p.catch) p.catch(mostraLaco);
   }
+  function mostraLaco() {
+    formou = true;
+    vid.hidden = false; vid.classList.add('on');
+    if (calmo.matches) { vf.hidden = true; return; }
+    var p = vid.play();
+    if (p && p.catch) p.catch(function () { vf.hidden = true; });
+  }
+  vf.addEventListener('ended', mostraLaco);
+  vf.addEventListener('error', mostraLaco);
+  vid.addEventListener('playing', function () { vf.pause(); vf.hidden = true; vf.classList.remove('on'); });
   function usarShader() {
-    vid.hidden = true; vid.pause();
+    vid.hidden = true; vid.pause(); vf.hidden = true; vf.pause();
     var im = new Image(); im.src = 'assets/img/mariposa.webp';
     Promise.all([campo(), im.decode(), fontes]).then(function (r) {
       if (celular.matches) return;
@@ -114,8 +130,10 @@
       var toque = matchMedia('(pointer: coarse)').matches;
       dpr = Math.min(devicePixelRatio || 1, toque ? 1.5 : 2);
       medeHero(); raiz.classList.add('gl'); cv.classList.add('on');
-      glH.desenhar(.25, bx, dpr, 1);
-      if (calmo.matches || (toque && innerHeight < 500)) return;
+      var parado = calmo.matches || (toque && innerHeight < 500);
+      forma = parado ? 1 : 0;
+      glH.desenhar(.25, bx, dpr, forma);
+      if (parado) return;
       t0 = 0; lacoH.liga();
     }).catch(semGl);
   }
@@ -154,7 +172,7 @@
     clearTimeout(rz);
     rz = setTimeout(function () {
       if (celular.matches) return;
-      if (glH && cmp) { medeHero(); glH.desenhar(.25, bx, dpr, 1); }
+      if (glH && cmp) { medeHero(); glH.desenhar(.25, bx, dpr, forma); }
       if (glO) medeOrc();
     }, 120);
   });

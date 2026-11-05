@@ -1,18 +1,20 @@
 """Grava assets/js/vento.js quadro a quadro num Edge headless e gera os MP4 do celular e os pôsteres.
-Laço sem emenda (12 s). A mariposa é baked no vídeo do topo; o nome fica em HTML por cima.
+Laço sem emenda (12 s). A mariposa é baked no vídeo do topo e fica parada; o nome fica em HTML por cima.
+vento-forma.mp4 mostra a arte se formando e termina no instante em que vento-pe.mp4 começa.
 Uso: python tools/gerar_video.py [pe] [orc]"""
 import base64, json, os, subprocess, sys
 from playwright.sync_api import sync_playwright
 import imageio_ffmpeg
 
 AQUI = os.path.dirname(os.path.abspath(__file__)); SITE = os.path.dirname(AQUI)
-FPS, SEG = 30, 12
+FPS, SEG, FORMA = 30, 12, 5   # FORMA: segundos do vídeo em que a arte se forma, antes do laço
 V = {'pe': dict(arq='vento-pe', W=1080, H=2040, mar=True, op="{linhas:17,forca:1,baixo:.8}", crf=25),
      'orc': dict(arq='vento-orc', W=720, H=1360, mar=False, op="{linhas:13,forca:1.7,baixo:0}", crf=26)}
 
-def render(b, j, b64, marB64, nome, c):
+def render(b, j, b64, marB64, nome, c, forma=False):
     W, H = c['W'], c['H']
-    mp4 = os.path.join(SITE, 'assets/video', c['arq'] + '.mp4')
+    arq = 'vento-forma' if forma else c['arq']
+    mp4 = os.path.join(SITE, 'assets/video', arq + '.mp4')
     enc = subprocess.Popen([imageio_ffmpeg.get_ffmpeg_exe(), '-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', str(FPS), '-c:v', 'png', '-i', '-',
         '-c:v', 'libx264', '-preset', 'slow', '-crf', str(c['crf']), '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-movflags', '+faststart', '-an', mp4], stdin=subprocess.PIPE)
     pg = b.new_page(viewport={'width': 400, 'height': 400})
@@ -26,12 +28,17 @@ def render(b, j, b64, marB64, nome, c):
     caixa = [.5 * W, .5 * H, (.9 * W / j['a']) if c['mar'] else .3 * H]
     d = W / 400
     q = FPS * SEG
-    for i in range(q):
-        png = base64.b64decode(pg.evaluate(f"(T.desenhar({i / q},{json.dumps(caixa)},{d}), document.getElementById('c').toDataURL('image/png'))").split(',', 1)[1])
+    ini = FPS * FORMA if c['mar'] else 0
+    for i in range(FPS * FORMA if forma else q):
+        ab = 1
+        if forma:
+            x = max(0, min(1, (i / FPS - .3) / 4.4)); ab = x * x * (3 - 2 * x)
+        t = (i if forma else ini + i) % q / q
+        png = base64.b64decode(pg.evaluate(f"(T.desenhar({t},{json.dumps(caixa)},{d},{ab}), document.getElementById('c').toDataURL('image/png'))").split(',', 1)[1])
         if i == 0:
-            t = os.path.join(SITE, '..', '_ref', 'hero', c['arq'] + '.png'); open(t, 'wb').write(png)
+            t = os.path.join(SITE, '..', '_ref', 'hero', arq + '.png'); open(t, 'wb').write(png)
             from PIL import Image
-            Image.open(t).convert('RGB').resize((720, 1360), Image.LANCZOS).save(os.path.join(SITE, 'assets/img', c['arq'] + '.jpg'), quality=80)
+            Image.open(t).convert('RGB').resize((720, 1360), Image.LANCZOS).save(os.path.join(SITE, 'assets/img', arq + '.jpg'), quality=80)
         enc.stdin.write(png)
     enc.stdin.close(); enc.wait(); pg.close()
     print(mp4, round(os.path.getsize(mp4) / 1e6, 2), 'MB', flush=True)
@@ -44,5 +51,7 @@ if __name__ == '__main__':
     with sync_playwright() as p:
         b = p.chromium.launch(channel='msedge', args=['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])
         for k in V:
-            if k in so: render(b, j, b64, mar, k, V[k])
+            if k in so:
+                render(b, j, b64, mar, k, V[k])
+                if V[k]['mar']: render(b, j, b64, mar, k, V[k], forma=True)
         b.close()
