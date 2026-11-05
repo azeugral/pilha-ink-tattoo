@@ -28,6 +28,6 @@ Gabinete de história natural à noite. A tinta das tatuagens foi extraída das 
 10. História: conferir com ele a passagem da carteira de trabalho e a do primo Luiz Fonseca.
 11. Agenda e cidades de guest. O site não cita nenhuma.
 12. O vídeo da história é de 2020 (ele diz ter 28 anos). Se tiver um mais recente, trocar.
-13.5 Mariposa do topo: confirmar se o cliente autoriza o uso da tatuagem como peça principal.
-13. Título "Asas", "Atena e Zeus", "Crisântemo", "Do santo ao Coliseu": nomes dados por nós.
-14. Domínio definitivo. Ao publicar, tirar o `noindex` e trocar a URL do `og:image`.
+13. Mariposa do topo: confirmar se o cliente autoriza o uso da tatuagem como peça principal.
+14. Título "Asas", "Atena e Zeus", "Crisântemo", "Do santo ao Coliseu": nomes dados por nós.
+15. Domínio definitivo. Ao publicar, tirar o `noindex` e trocar a URL do `og:image`.
