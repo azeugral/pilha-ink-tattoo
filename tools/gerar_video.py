@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 import imageio_ffmpeg
 
 AQUI = os.path.dirname(os.path.abspath(__file__)); SITE = os.path.dirname(AQUI)
-FPS, SEG, FORMA = 30, 12, 5   # FORMA: segundos do vídeo em que a arte se forma, antes do laço
+FPS, SEG, FORMA = 30, 12, 3   # FORMA: segundos do vídeo em que a arte se forma, antes do laço
 V = {'pe': dict(arq='vento-pe', W=1080, H=2040, mar=True, op="{linhas:17,forca:1,baixo:.8}", crf=25),
      'orc': dict(arq='vento-orc', W=720, H=1360, mar=False, op="{linhas:13,forca:1.7,baixo:0}", crf=26)}
 
@@ -32,7 +32,7 @@ def render(b, j, b64, marB64, nome, c, forma=False):
     for i in range(FPS * FORMA if forma else q):
         ab = 1
         if forma:
-            x = max(0, min(1, (i / FPS - .3) / 4.4)); ab = x * x * (3 - 2 * x)
+            x = max(0, min(1, (i / FPS - .15) / 2.4)); ab = 1 - (1 - x) * (1 - x)
         t = (i if forma else ini + i) % q / q
         png = base64.b64decode(pg.evaluate(f"(T.desenhar({t},{json.dumps(caixa)},{d},{ab}), document.getElementById('c').toDataURL('image/png'))").split(',', 1)[1])
         if i == 0:

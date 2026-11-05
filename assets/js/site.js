@@ -89,7 +89,7 @@
     x.fillText('PILHA', c.width / 2, (Math.max(82, h * .105) + cap) * dpr);
     glH.nome(c);
   }
-  var forma = 0, FORMA_MS = 4400, suave = function (p) { return p * p * (3 - 2 * p); };
+  var forma = 0, FORMA_MS = 2400, suave = function (p) { return 1 - (1 - p) * (1 - p); };
   var lacoH = laco(hero, function (ms) {
     if (ultT) {
       somaT += ms - ultT; nT++;
@@ -97,7 +97,7 @@
     }
     ultT = ms;
     if (!t0) t0 = ms;
-    forma = suave(Math.max(0, Math.min(1, (ms - t0 - 300) / FORMA_MS)));
+    forma = suave(Math.max(0, Math.min(1, (ms - t0 - 150) / FORMA_MS)));
     glH.desenhar((ms / 12000) % 1, bx, dpr, forma);
   });
   function usarVideo() {
