@@ -83,6 +83,8 @@
     var cap = m.actualBoundingBoxAscent / 200 * f, lim = h * .46;
     if (cap > lim) { f *= lim / cap; cap = lim; }
     x.font = '400 ' + (f * dpr) + 'px Gloock, Georgia, serif';
+    /* fundo preto opaco: sem ele a suavização das bordas se perde ao virar textura */
+    x.fillStyle = '#000'; x.fillRect(0, 0, c.width, c.height);
     x.textAlign = 'center'; x.fillStyle = '#fff';
     x.fillText('PILHA', c.width / 2, (Math.max(82, h * .105) + cap) * dpr);
     glH.nome(c);
@@ -180,7 +182,13 @@
 
   /* vídeo da história: mudo com legenda, som por escolha */
   var hv = $('#hist-v'), som = $('#som'), lv = $('#leg-video'), segs = null, sI = -1;
-  videoNaTela(hv);
+  /* toca mudo, com legenda, só quando chega na seção */
+  var comSom = false;
+  function tocaHist() { var p = hv.play(); if (p && p.catch) p.catch(function () {}); }
+  new IntersectionObserver(function (e) {
+    if (e[0].isIntersecting) { if (hv.preload === 'none') hv.preload = 'auto'; if (!calmo.matches || comSom) tocaHist(); }
+    else hv.pause();
+  }, { threshold: .35 }).observe(hv);
   fetch('assets/dados/historia.json').then(function (r) { return r.json(); }).then(function (j) { segs = j; }).catch(function () {});
   hv.addEventListener('timeupdate', function () {
     if (!segs) return;
@@ -190,11 +198,17 @@
     lv.textContent = '';
     if (k >= 0) { var sp = d.createElement('span'); sp.textContent = segs[k][2]; lv.appendChild(sp); }
   });
-  function alternaSom() {
-    var ligar = hv.muted; hv.muted = !ligar; som.setAttribute('aria-pressed', ligar);
-    $('span', som).textContent = ligar ? 'Som ligado' : 'Ouvir com som';
-    if (ligar) { var p = hv.play(); if (p && p.catch) p.catch(function () {}); }
+  function semSom() {
+    comSom = false; hv.muted = true; hv.loop = true;
+    som.setAttribute('aria-pressed', 'false'); $('span', som).textContent = 'Ouvir com som';
   }
+  /* ligar o som sempre recomeça do início; ao terminar, volta a tocar mudo */
+  function alternaSom() {
+    if (comSom) return semSom();
+    comSom = true; hv.muted = false; hv.currentTime = 0; hv.loop = false; tocaHist();
+    som.setAttribute('aria-pressed', 'true'); $('span', som).textContent = 'Tirar o som';
+  }
+  hv.addEventListener('ended', function () { semSom(); tocaHist(); });
   som.addEventListener('click', alternaSom);
 
   /* manifesto: as palavras escurecem com a rolagem */

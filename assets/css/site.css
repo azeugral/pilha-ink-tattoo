@@ -129,7 +129,7 @@ p{text-wrap:pretty}
 .mais-box{display:flex;justify-content:center;margin-top:clamp(28px,4vw,44px)}
 
 /* projetos */
-.quatro{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.4vw,20px)}
+.quatro{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.4vw,20px);align-items:start}
 .bloco{display:block;width:100%;text-align:left}
 .foto{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:var(--noite2)}
 .foto img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
@@ -154,7 +154,7 @@ p{text-wrap:pretty}
 
 /* história: vídeo ao lado e resumo */
 .historia{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
-.hist-video{position:sticky;top:96px;max-width:400px;width:100%;justify-self:center}
+.hist-video{position:sticky;top:96px;max-width:420px;width:100%;justify-self:center;margin:0;padding:10px;border:1px solid var(--linha-n);background:var(--noite2)}
 .tela-video{position:relative;aspect-ratio:9/16;overflow:hidden;background:var(--noite2)}
 .tela-video video{width:100%;height:100%;object-fit:cover}
 .leg-video{position:absolute;left:10px;right:10px;bottom:68px;text-align:center;font-weight:600;font-size:.98rem;line-height:1.4;pointer-events:none}
@@ -165,7 +165,7 @@ p{text-wrap:pretty}
 .som:active{transform:scale(.97)}
 .som[aria-pressed=true]{background:var(--verde);color:var(--tinta);box-shadow:none}
 .som[aria-pressed=true] svg .on{opacity:1}
-.hist-video figcaption{margin-top:10px;font-size:.92rem;color:var(--txt-n);text-align:center}
+.hist-video figcaption{padding:12px 2px 2px;font-size:.8rem;font-weight:500;line-height:1.35;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-n);text-align:left}
 .hist-tx h2{font-size:clamp(2.5rem,5.4vw,4.8rem);margin-bottom:.45em}
 .hist-tx>p{font-size:clamp(1.05rem,1.35vw,1.2rem);color:var(--txt-n)}
 .hist-tx>p+p{margin-top:1em}
@@ -296,7 +296,7 @@ textarea{min-height:120px;resize:vertical}
   .pares{grid-template-columns:minmax(0,1fr);gap:30px}
   .pares .par:last-child:nth-child(odd){max-width:none}
   .historia{grid-template-columns:minmax(0,1fr)}
-  .hist-video{position:static;max-width:min(100%,340px)}
+  .hist-video{position:static;max-width:min(100%,380px)}
   .hist-tx{text-align:center}
   .hist-mais summary,.hist-corpo{text-align:left}
   .marca b{font-size:1.16rem;letter-spacing:.12em;padding-left:.12em}
