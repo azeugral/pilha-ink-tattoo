@@ -80,15 +80,14 @@ p{text-wrap:pretty}
 .pronto .hero h1 span{transform:none;opacity:1}
 .hero-txt{position:absolute;z-index:3;left:var(--mg);right:var(--mg);bottom:clamp(24px,4.4vh,44px);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:24px;pointer-events:none}
 .hero-txt>*{pointer-events:auto}
+.hero-txt{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}
+.hero-bts{justify-content:center}
 .hero-esq{max-width:430px}
 .hero-esq .lat{display:block;font-size:1.3rem;line-height:1.2;color:var(--verde);margin-bottom:.35rem}
 .hero-esq p{font-size:clamp(1.14rem,1.55vw,1.4rem);line-height:1.35;font-weight:500}
 .hero-bts{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
-.hero-dados{display:grid;gap:12px;text-align:right}
-.hero-dados b{display:block;font:400 clamp(1.5rem,2.5vw,2.2rem)/1.05 var(--serif)}
-.hero-dados span{display:block;font-size:.92rem;line-height:1.3;color:var(--txt-n)}
-.hero-esq,.hero-dados{opacity:0;transform:translateY(14px);transition:opacity .7s ease .45s,transform .9s var(--ease) .45s}
-.pronto .hero-esq,.pronto .hero-dados{opacity:1;transform:none}
+.hero-esq{opacity:0;transform:translateY(14px);transition:opacity .7s ease .45s,transform .9s var(--ease) .45s}
+.pronto .hero-esq{opacity:1;transform:none}
 
 /* blocos gerais */
 .sec{padding:clamp(72px,11vw,150px) var(--mg);position:relative}
@@ -351,20 +350,15 @@ textarea{min-height:120px;resize:vertical}
   .hero-esq p{font-size:1.1rem}
   .hero-bts{margin-top:13px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px;width:100%}
   .hero-bts .bt{min-height:50px;padding:10px 8px;font-size:.96rem}
-  .hero-dados{grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);text-align:center;width:100%;gap:6px}
-  .hero-dados b{font-size:1.3rem}
-  .hero-dados span{font-size:.8rem;line-height:1.2}
 }
 @media (max-width:767px) and (orientation:portrait) and (max-height:700px){
-  .hero-dados{display:none}
   .hero-esq .lat{font-size:1.1rem;margin-bottom:0}
 }
 @media (orientation:landscape) and (max-height:600px){
   .hero{min-height:340px}
   .hero h1{font-size:min(33.4vw,62svh);top:64px}
   .hero-txt{bottom:calc(env(safe-area-inset-bottom,0px) + 14px)}
-  .hero-dados{display:none}
-  .hero-esq{max-width:none;width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:20px;align-items:end}
+  .hero-esq{max-width:none;width:100%;text-align:left;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:20px;align-items:end}
   .hero-esq .lat{grid-column:1;font-size:1.02rem;margin:0}
   .hero-esq p{grid-column:1;font-size:.95rem;line-height:1.3}
   .hero-bts{grid-column:2;grid-row:1/3;flex-wrap:nowrap;margin:0}
