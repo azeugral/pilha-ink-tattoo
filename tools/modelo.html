@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pilha Ink Tattoo | O primeiro artista biólogo, Rio de Janeiro</title>
+<meta name="description" content="Tatuagem autoral em preto, cover up e free hand com Pilha, no Recreio dos Bandeirantes, Rio de Janeiro. Mais de 13 anos só com preto concentrado.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0b110e">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pilha Ink Tattoo">
+<meta property="og:description" content="O primeiro artista biólogo. Faço da natureza belas artes.">
+<meta property="og:image" content="https://azeugral.github.io/pilha-ink-tattoo/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/gloock-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fontes.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<noscript><style>.hero h1 span,.falcao img,.hero-esq,.hero-dados,.entra{opacity:1!important;transform:none!important}.manifesto blockquote .pl{color:var(--tinta)!important}.merg-pass>div:first-child{opacity:1;visibility:visible;transform:none}</style></noscript>
+</head>
+<body>
+<a class="pular" href="#colecao">Pular para a coleção</a>
+
+<header id="topo">
+  <a class="marca" href="#inicio" aria-label="Pilha Ink Tattoo, início">Pilha <span>ink tattoo</span></a>
+  <nav id="nav" aria-label="Principal">
+    <ul>
+      <li><a href="#colecao">Coleção</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#cover">Cover up</a></li>
+      <li><a href="#freehand">Free hand</a></li>
+      <li><a href="#historia">História</a></li>
+      <li><a href="#alunos">Alunos</a></li>
+      <li><a href="#avaliacoes">Avaliações</a></li>
+    </ul>
+  </nav>
+  <div class="topo-dir">
+    <a class="bt" href="#orcamento">Pedir orçamento</a>
+    <button id="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav"><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="inicio">
+<section class="hero" aria-label="Apresentação">
+  <div class="palco" data-palco>
+    <canvas id="vento" aria-hidden="true"></canvas>
+    <video id="vento-v" muted loop playsinline preload="none" poster="assets/img/vento-pe.jpg" aria-hidden="true" hidden></video>
+  </div>
+  <h1><span>PILHA</span><b class="so-leitor"> Ink Tattoo</b></h1>
+  <div class="palco frente">
+    <div class="falcao" id="falcao"><img src="assets/img/falcao.webp" srcset="assets/img/falcao-860.webp 860w, assets/img/falcao.webp 1500w" sizes="(max-width:767px) 95vw, 72vw" width="1500" height="1875" alt="Falcão-peregrino tatuado por Pilha, com a tinta recortada da pele" fetchpriority="high" draggable="false"></div>
+  </div>
+  <div class="hero-txt">
+    <div class="hero-esq">
+      <em class="lat">Falco peregrinus</em>
+      <p>O primeiro artista biólogo. Faço da natureza belas artes.</p>
+      <div class="hero-bts">
+        <a class="bt" href="#orcamento">Pedir orçamento</a>
+        <a class="bt fio" href="#colecao">Ver a coleção</a>
+      </div>
+    </div>
+    <ul class="hero-dados">
+      <li><b>13 anos</b><span>de tatuagem</span></li>
+      <li><b>139 mil</b><span>no Instagram</span></li>
+      <li><b>Só preto</b><span>concentrado</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="manifesto osso" aria-label="Manifesto">
+  <blockquote id="manifesto">{{MANIFESTO}}</blockquote>
+  <p class="entra">Desde os 10 anos, Pilha vive entre o mar, as trilhas e os bichos, principalmente os insetos. Foi desse olhar de biólogo que nasceu um trabalho feito de folhas, asas e carapaças, sempre desenhado para o corpo de quem vai usar.</p>
+</section>
+
+<section class="sec colecao osso" id="colecao">
+  <div class="max">
+    <header class="cab entra">
+      <h2>A coleção</h2>
+      <p>Cada peça daqui foi tatuada de verdade. Tiramos a pele da foto para você ver só a tinta, como numa prancha de museu. Toque em um espécime para ver a tatuagem real.</p>
+    </header>
+    <div class="filtros" role="group" aria-label="Filtrar coleção">
+      {{FILTROS}}
+    </div>
+    <div class="grade" id="grade">
+{{COLECAO}}
+    </div>
+    <div class="mais-box"><button class="bt fio" id="ver-mais" type="button">Ver a coleção inteira</button></div>
+  </div>
+</section>
+
+<section class="sec" id="projetos">
+  <div class="max">
+    <header class="cab entra">
+      <h2>Fechamentos de braço</h2>
+      <p>Projetos grandes, desenhados para acompanhar o músculo e pensados sessão por sessão, do ombro ao punho.</p>
+    </header>
+    <div class="quatro">
+{{PROJETOS}}
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cover" style="padding-top:0">
+  <div class="max">
+    <header class="cab entra">
+      <h2>Cover up</h2>
+      <p>Tatuagem antiga que não te representa mais não é sentença. Veja o que era e o que virou.</p>
+    </header>
+    <div class="pares">
+{{COVERS}}
+    </div>
+    <blockquote class="citacao entra">Cobertura boa é quando você não permite o antigo trabalho aparecer.<cite>Pilha</cite></blockquote>
+    <div class="centro entra"><a class="bt" href="#orcamento" data-tipo="Cover up">Mandar meu cover up</a></div>
+  </div>
+</section>
+
+<section class="sec osso" id="freehand">
+  <div class="max">
+    <header class="cab entra">
+      <h2>Aqui é a mão livre</h2>
+      <p>Sem decalque: o desenho nasce de marcador direto na pele, seguindo o corpo. Depois vem a tinta.</p>
+    </header>
+    <div class="pares">
+{{FREEHAND}}
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cicatrizadas">
+  <div class="max">
+    <header class="cab entra">
+      <h2>Depois de cicatrizar</h2>
+      <p>É assim que o preto concentrado fica quando a pele já assentou.</p>
+    </header>
+    <div class="quatro">
+{{CICATRIZADAS}}
+    </div>
+  </div>
+</section>
+
+<section class="mergulho" id="historia" aria-label="A história do falcão engaiolado">
+  <div class="merg-tela">
+    <div class="merg-falcao" id="merg-f"><img src="assets/img/falcao.webp" srcset="assets/img/falcao-860.webp 860w, assets/img/falcao.webp 1500w" sizes="100vw" width="1500" height="1875" alt="" loading="lazy" decoding="async" draggable="false"></div>
+    <div class="merg-grade" id="merg-g" aria-hidden="true"></div>
+    <div class="merg-escuro" aria-hidden="true"></div>
+    <div class="merg-pass" id="merg-p">
+      <div class="on">
+        <p class="kmh" aria-label="320 quilômetros por hora"><span id="kmh">0</span><small>km/h</small></p>
+        <h3>O animal mais rápido do planeta.</h3>
+      </div>
+      <div><h3>Agora imagine ele preso numa gaiola.</h3><p>Seguro, bem alimentado, sem voar. Será que ele era feliz?</p></div>
+      <div><h3>Por muito tempo eu fui um deles.</h3><p>Eletricista industrial, ganhava bem e não era feliz.</p></div>
+      <div><h3>Queimei minha carteira de trabalho para não voltar.</h3><p>Fui chamado de doido. Comecei a tatuar no quarto de um amigo, com a ajuda do meu primo Luiz Fonseca.</p></div>
+      <div><h3>Construí meu estúdio tijolo por tijolo.</h3><p>Hoje são mais de 13 anos só com preto concentrado.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="trajeto">
+  <div class="max">
+    <div class="trajeto">
+      <figure class="foto entra"><img src="assets/img/foto/caes.webp" alt="Pilha sorrindo com seus dois dachshunds no colo" width="1100" height="1375" loading="lazy" decoding="async" draggable="false"></figure>
+      <div class="trajeto-tx entra">
+        <h2>Leandro Lima Faria, o Pilha</h2>
+        <p>Trocou a indústria pela tatuagem e fez do preto concentrado a sua assinatura. Da mesa do estúdio ao mar, nunca largou os insetos que observa desde criança.</p>
+        <p>Depois vieram as máquinas com o nome dele, os alunos e a pista. Hoje ele pilota uma ZX6R no Acelerando Sonhos, mas o centro de tudo continua sendo a tinta.</p>
+      </div>
+    </div>
+    <ul class="licoes">
+      <li class="entra"><b>Primeira lição</b><h3>Acreditar que posso voar.</h3></li>
+      <li class="entra"><b>Segunda lição</b><h3>Não ter medo de bater as asas e cair.</h3></li>
+      <li class="entra"><b>Terceira lição</b><h3>Diferentes formas de viver exigem diferentes habilidades.</h3></li>
+      <li class="entra"><b>Quarta lição</b><h3>Se quiser voar alto, evite voar com pardais.</h3></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec osso" id="alunos">
+  <div class="max">
+    <header class="cab entra">
+      <h2>Formando tatuadores</h2>
+      <p>Aulas aos domingos, com botânica, movimento das folhas, decalque, simetria, biossegurança, variações de traço e prática com acompanhamento.</p>
+    </header>
+    <div class="quatro">
+{{AULAS}}
+    </div>
+    <blockquote class="cit-aluna entra">Pilha me ensinou a tatuar do zero, acreditou no meu potencial de primeira e sempre será uma referência pra mim.<cite>Andressa, aluna</cite></blockquote>
+    <div class="turma entra">{{TURMA}}</div>
+    <div class="centro entra"><a class="bt" href="{{WA_CURSO}}" target="_blank" rel="noopener">Perguntar sobre o curso</a></div>
+  </div>
+</section>
+
+<section class="sec" id="avaliacoes">
+  <div class="max">
+    <header class="cab entra">
+      <h2>Quem usa, conta</h2>
+    </header>
+    <div class="nota entra"><b>5,0</b><span>no Google<br>49 avaliações</span></div>
+    <ul class="relatos">
+{{RELATOS}}
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="fora" style="padding-top:0">
+  <div class="max">
+    <header class="cab entra">
+      <h2>Fora do estúdio</h2>
+      <p>Amo meu contato com a natureza, seja na água, na terra e até mesmo no asfalto.</p>
+    </header>
+    <div class="tres">
+      <figure class="foto entra"><img src="assets/img/foto/agua.webp" alt="Pilha surfando uma onda de água verde" width="1000" height="1250" loading="lazy" decoding="async" draggable="false"><figcaption>Água</figcaption></figure>
+      <figure class="foto entra"><img src="assets/img/foto/terra.webp" alt="Pilha entre plantas, na mata" width="1000" height="1250" loading="lazy" decoding="async" draggable="false"><figcaption>Terra</figcaption></figure>
+      <figure class="foto entra"><img src="assets/img/foto/pista.webp" alt="Pilha pilotando a Kawasaki ZX6R na pista" width="1000" height="1250" loading="lazy" decoding="async" draggable="false"><figcaption>Asfalto</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="orcamento" style="background:var(--noite2)">
+  <div class="max">
+    <header class="cab entra">
+      <h2>Pedir orçamento</h2>
+      <p>Responda aqui e seu pedido chega pronto no WhatsApp do Pilha. Sem vai e vem de mensagem.</p>
+    </header>
+    <div class="orc">
+      <form id="form" novalidate>
+        <fieldset class="campo">
+          <legend>O que você quer fazer?</legend>
+          <div class="opcoes">{{TIPOS}}</div>
+        </fieldset>
+        <div class="campo">
+          <label class="tit" for="f-ideia">Sua ideia</label>
+          <textarea id="f-ideia" name="ideia" required placeholder="Ex.: uma mariposa no antebraço, com folhas subindo para o cotovelo"></textarea>
+        </div>
+        <div class="dois">
+          <div class="campo"><label class="tit" for="f-local">Lugar do corpo</label><input type="text" id="f-local" name="local" placeholder="Ex.: antebraço"></div>
+          <div class="campo"><label class="tit" for="f-tam">Tamanho</label><input type="text" id="f-tam" name="tam" placeholder="Ex.: 15 cm"></div>
+          <div class="campo"><label class="tit" for="f-nome">Seu nome</label><input type="text" id="f-nome" name="nome" autocomplete="name" required></div>
+          <div class="campo"><label class="tit" for="f-cid">Sua cidade</label><input type="text" id="f-cid" name="cid" autocomplete="address-level2"></div>
+        </div>
+        <div class="campo"><label class="tit" for="f-ref">Peça de referência <span class="aj">(opcional)</span></label><input type="text" id="f-ref" name="ref" placeholder="Toque em “Quero uma assim” na coleção"></div>
+      </form>
+      <aside class="etiqueta" aria-label="Seu pedido">
+        <h3>Seu pedido</h3>
+        <em class="lat" id="e-lat">Ainda sem nome</em>
+        <dl>
+          <dt>Tipo</dt><dd id="e-tipo">Autoral</dd>
+          <dt>Ideia</dt><dd id="e-ideia">Conte ao lado</dd>
+          <dt>Lugar</dt><dd id="e-local">A definir</dd>
+          <dt>Tamanho</dt><dd id="e-tam">A definir</dd>
+          <dt>Referência</dt><dd id="e-ref">Nenhuma</dd>
+        </dl>
+        <button class="bt" type="submit" form="form">Enviar no WhatsApp</button>
+        <small id="form-aviso" aria-live="polite">Depois é só anexar fotos do local ou da referência na conversa.</small>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="sec osso" id="links">
+  <div class="max">
+    <header class="cab entra"><h2>Tudo num lugar só</h2></header>
+    <div class="links">
+{{LINKS}}
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="rodape">
+  <span class="gde">PILHA</span>
+  <em class="lat">Amor em cada gota de tinta</em>
+  <p>Recreio dos Bandeirantes, Rio de Janeiro</p>
+  <p>Site por <a href="https://lrgz.com.br" target="_blank" rel="noopener">L R G Z</a></p>
+</footer>
+
+<a class="zap-flut" id="zap-flut" href="#orcamento" aria-label="Pedir orçamento">{{ICO_ZAP}}</a>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="Ampliar imagem" hidden>
+  <div class="lb-topo">
+    <div class="lb-troca" id="lb-troca" role="group" aria-label="Ver como">
+      <button type="button" id="lb-v-pele" aria-pressed="true">Na pele</button>
+      <button type="button" id="lb-v-pl" aria-pressed="false">Só a tinta</button>
+    </div>
+    <button class="lb-x" id="lb-x" type="button" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20"/></svg></button>
+  </div>
+  <div id="lb-palco">
+    <img id="lb-img" alt="" draggable="false">
+    <button class="lb-seta" id="lb-ant" type="button" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 4l-8 8 8 8"/></svg></button>
+    <button class="lb-seta" id="lb-prox" type="button" aria-label="Próxima"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg></button>
+  </div>
+  <div class="lb-pe">
+    <div><b id="lb-nome"></b><em class="lat" id="lb-lat"></em></div>
+    <button class="bt" id="lb-quero" type="button">Quero uma assim</button>
+  </div>
+</div>
+
+<script src="assets/js/vento.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>
